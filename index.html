@@ -22,8 +22,9 @@ tailwind.config={theme:{extend:{colors:{obsidian:'#050505',midnight:'#0B0908',ch
 </script>
 <style>
 :root{--c:#D6B56D;--a:#A9823B;--w:#E8CD8A}
-html{background:#050505;overflow-x:clip;width:100%}
-body{font-family:Inter,sans-serif;background:#050505;color:#D6B56D;overflow-x:clip;width:100%;max-width:100%;min-height:100vh;-webkit-font-smoothing:antialiased}
+html{background:#050505}
+body{font-family:Inter,sans-serif;background:#050505;color:#D6B56D;min-height:100vh;-webkit-font-smoothing:antialiased}
+main,footer{overflow-x:clip}
 section,footer,header,main{max-width:100%}
 img,svg{max-width:100%}
 .cg{font-family:'Cormorant Garamond',serif}.pf{font-family:'Playfair Display',serif}
@@ -42,22 +43,23 @@ img,svg{max-width:100%}
 .frame{border:1px solid rgba(169,130,59,.5);position:relative}
 .frame::before{content:"";position:absolute;inset:10px;border:1px solid rgba(169,130,59,.22);pointer-events:none;z-index:3}
 .pic{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 35%,rgba(214,181,109,.28),#050505 72%)}
-.pic svg.fb{position:absolute;inset:0;margin:auto;height:58%;filter:drop-shadow(0 0 22px rgba(214,181,109,.4))}
-.pic img{position:relative;width:100%;height:100%;object-fit:cover;filter:sepia(.35) saturate(1.1) brightness(.82) contrast(1.08);transition:transform 1.4s cubic-bezier(.2,.7,.2,1),filter .8s}
+.pic svg.fb{position:absolute;inset:0;margin:auto;height:58%}
+.pic img{position:relative;width:100%;height:100%;object-fit:cover;opacity:.78;transition:transform 1.4s cubic-bezier(.2,.7,.2,1),opacity .8s}
 .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,5,.05) 40%,rgba(5,5,5,.75));pointer-events:none}
-.hov:hover .pic img{transform:scale(1.07);filter:sepia(.25) saturate(1.15) brightness(.95) contrast(1.08)}
-.reveal{opacity:0;transform:translateY(34px);transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;transform:none}
+.hov:hover .pic img{transform:scale(1.07);opacity:.95}
+/* FIX: content is visible by default; the hidden state only applies when JS confirms animation is working */
+.reveal{opacity:1;transform:none;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.js-anim .reveal:not(.in){opacity:0;transform:translateY(34px)}
 .mask{clip-path:inset(0 0 100% 0);transition:clip-path 1.4s cubic-bezier(.2,.7,.2,1)}
 .mask.in{clip-path:inset(0)}
-.hero-in{opacity:0;transform:translateY(26px);animation:hin 1.4s cubic-bezier(.2,.7,.2,1) forwards}
-@keyframes hin{to{opacity:1;transform:none}}
+.hero-in{animation:hin 1.4s cubic-bezier(.2,.7,.2,1) both}
+@keyframes hin{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 @keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.1) translateY(-1%)}}
-.kb{animation:kb 22s ease-in-out infinite alternate}
+.kb{}
 @keyframes beam{0%,100%{opacity:.55}50%{opacity:.85}}
-.beam{background:conic-gradient(from 180deg at 50% 0%,transparent 160deg,rgba(232,205,138,.28) 178deg,rgba(232,205,138,.28) 182deg,transparent 200deg);filter:blur(14px);animation:beam 7s ease-in-out infinite}
+.beam{background:conic-gradient(from 180deg at 50% 0%,transparent 160deg,rgba(232,205,138,.28) 178deg,rgba(232,205,138,.28) 182deg,transparent 200deg);opacity:.7}
 @keyframes floatw{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.fw{animation:floatw 4.5s ease-in-out infinite}
+.fw{}
 :focus-visible{outline:2px solid #E8CD8A;outline-offset:3px}
 input,select,textarea{background:#0B0908;border:1px solid rgba(169,130,59,.5);color:#E8CD8A;transition:border-color .3s,box-shadow .3s;border-radius:0}
 input:focus,select:focus,textarea:focus{outline:none;border-color:#E8CD8A;box-shadow:0 0 22px rgba(214,181,109,.2)}
@@ -73,14 +75,14 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#E8CD8A;box-sh
  radial-gradient(ellipse at 50% 50%,rgba(214,181,109,.2),#0B0908 70%)}
 @keyframes pulse{0%{transform:scale(.6);opacity:.8}100%{transform:scale(2.2);opacity:0}}
 .pulse{animation:pulse 2.4s ease-out infinite}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.hero-in{opacity:1;transform:none}.mask{clip-path:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.hero-in{opacity:1!important;transform:none!important}.mask{clip-path:none}}
 </style>
 </head>
 <body>
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] bg-champ text-obsidian px-4 py-2">Skip to content</a>
 
 <!-- NAV -->
-<header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-700">
+<header id="nav" class="fixed top-0 inset-x-0 z-50">
 <nav class="max-w-7xl mx-auto px-5 lg:px-10 h-20 flex items-center justify-between" aria-label="Main">
 <a href="#home" class="leading-none" aria-label="Adora Perfume home"><span class="cg block text-3xl font-medium tracking-[.32em] gold">ADORA</span><span class="block text-[.55rem] tracking-[.62em] mt-1 text-warm pl-1">PERFUME</span></a>
 <ul class="hidden lg:flex items-center gap-12 text-[.72rem] tracking-[.25em] uppercase">
@@ -100,7 +102,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#E8CD8A;box-sh
 <section id="home" class="relative min-h-[100svh] flex items-center overflow-hidden bg-obsidian">
 <div class="absolute inset-0 pic" aria-hidden="true">
 <svg class="fb !h-[70%] !left-auto !right-[8%]" viewBox="0 0 60 90"><use href="#bottle"/></svg>
-<img id="heroImg" class="kb" src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=2200&q=85" alt="" fetchpriority="high" onerror="this.remove()" style="opacity:0;transition:opacity 2s;filter:sepia(.4) saturate(1.1) brightness(.7) contrast(1.1)" onload="this.style.opacity=1">
+<img id="heroImg" class="kb" src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=2200&q=85" alt="" fetchpriority="high" onerror="this.remove()" style="opacity:.7">
 </div>
 <div class="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/80 to-obsidian/10"></div>
 <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-obsidian/70"></div>
@@ -257,7 +259,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#E8CD8A;box-sh
 
 <!-- FINALE -->
 <section class="relative min-h-[80svh] flex items-center justify-center text-center overflow-hidden bg-obsidian">
-<div class="absolute inset-0 pic" aria-hidden="true"><svg class="fb" viewBox="0 0 60 90"><use href="#bottle"/></svg><img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=2000&q=85" alt="" loading="lazy" onerror="this.remove()" style="filter:sepia(.4) brightness(.55) contrast(1.1)"></div>
+<div class="absolute inset-0 pic" aria-hidden="true"><svg class="fb" viewBox="0 0 60 90"><use href="#bottle"/></svg><img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=2000&q=85" alt="" loading="lazy" onerror="this.remove()" style="opacity:.5"></div>
 <div class="absolute inset-0 bg-gradient-to-b from-obsidian via-obsidian/55 to-obsidian"></div>
 <div class="relative px-5 py-24 reveal">
 <p class="cg gold text-4xl tracking-[.4em]">ADORA</p><p class="text-[.6rem] tracking-[.7em] text-warm mt-2">PERFUME</p>
@@ -368,10 +370,10 @@ window.open(createWhatsAppLink(msg),'_blank','noopener,noreferrer')});
 /* nav + scroll */
 const nav=$('#nav'),toTop=$('#toTop'),mm=$('#mmenu'),bg=$('#burger');
 function onScroll(){const y=scrollY,s=y>50;
-nav.classList.toggle('bg-obsidian/95',s);nav.classList.toggle('backdrop-blur-md',s);nav.classList.toggle('border-b',s);nav.classList.toggle('border-antique/50',s);
+nav.classList.toggle('bg-obsidian/95',s);nav.classList.toggle('border-b',s);nav.classList.toggle('border-antique/50',s);
 toTop.style.opacity=y>700?1:0;toTop.style.pointerEvents=y>700?'auto':'none';
 revealCheck()}
-addEventListener('scroll',onScroll,{passive:true});onScroll();
+addEventListener('scroll',onScroll,{passive:true});
 toTop.onclick=()=>scrollTo({top:0,behavior:'smooth'});
 function setMenu(open){mm.classList.toggle('closed',!open);bg.setAttribute('aria-expanded',String(open));nav.classList.add('bg-obsidian/95')}
 bg.onclick=()=>setMenu(mm.classList.contains('closed'));
@@ -379,12 +381,21 @@ $$('#mmenu a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
 addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
 $$('.navl').forEach(a=>{a.className+=' relative py-2 hover:text-warm transition after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-warm after:transition-all hover:after:w-full'});
 
-/* reveal */
+/* reveal (safe version: content is visible by default, animation is optional) */
 rv=$$('.reveal');
 function revealCheck(){rv.forEach(el=>{if(!el.classList.contains('in')&&el.getBoundingClientRect().top<innerHeight*.94)el.classList.add('in')})}
-if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -6% 0px'});rv.forEach(el=>io.observe(el))}else{rv.forEach(el=>el.classList.add('in'))}
+if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+  document.documentElement.classList.add('js-anim');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting||e.boundingClientRect.top<0){e.target.classList.add('in');io.unobserve(e.target)}
+  }),{threshold:0,rootMargin:'0px 0px -6% 0px'});
+  rv.forEach(el=>io.observe(el));
+  /* Failsafe: never leave anything hidden */
+  setTimeout(()=>rv.forEach(el=>el.classList.add('in')),4000);
+}
 rv.forEach((el,i)=>{el.style.transitionDelay=(i%3)*90+'ms'});
-addEventListener('resize',revealCheck);addEventListener('load',revealCheck);revealCheck();
+addEventListener('resize',revealCheck);addEventListener('load',revealCheck);
+onScroll();
 $('#yr').textContent=new Date().getFullYear();
 </script>
 </body>
